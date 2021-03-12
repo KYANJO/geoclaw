@@ -63,7 +63,7 @@ def setplot(plotdata):                  #defining setplot command (indenting by 
     
     def add_particles(current_data):
         t = current_data.t
-
+        print('adding_particles')
         # plot recent path:
         t_path_length = 60.0   # length of path trailing particle (how far in time (s))
         kwargs_plot_path = {'linewidth':1, 'color':'k'}
@@ -73,7 +73,7 @@ def setplot(plotdata):                  #defining setplot command (indenting by 
                                   kwargs_plot=kwargs_plot_path)
 
         # plot current location:
-        kwargs_plot_point = {'marker':'o','markersize':3,'color':'W'} #point color
+        kwargs_plot_point = {'marker':'o','markersize':3,'color':'k'} #point color
         particle_tools.plot_particles(gauge_solutions, t, 
                                       gaugenos=gaugenos_lagrangian, 
                                       kwargs_plot=kwargs_plot_point)  
@@ -162,9 +162,9 @@ def setplot(plotdata):                  #defining setplot command (indenting by 
     #----------------------------------------------------------
     plotfigure = plotdata.new_plotfigure(name='Teton_Dam_KML',figno=1) #specifying specific desired plots
     plotfigure.show = True #showing what we plot (always on)
-    plotfigure.kwargs = {'figsize': (9,4)}
+    #plotfigure.kwargs = {'figsize': (9,4)}
     plotaxes = plotfigure.new_plotaxes('pcolor')
-    plotaxes.title = 'Teton_Dam_KML'
+    #plotaxes.title = 'Teton_Dam_KML'
     plotaxes.scaled = True
 
     plotfigure.use_for_kml = True #output as KML required true to visualize GeoClaw in Google Earth
@@ -173,9 +173,6 @@ def setplot(plotdata):                  #defining setplot command (indenting by 
     # Latlong box used for GoogleEarth
     plotfigure.kml_xlimits = [-112.36171859324912, -111.25911793671588] #coordinates of TetonLarge.topo
     plotfigure.kml_ylimits = [43.591904932832371, 43.977907507732617] #coordinates of TetonLarge.topo
-
-    # Particles
-    plotaxes.afteraxes = add_particles
 
     # Use computational coordinates for plotting
     plotfigure.kml_use_figure_limits = True #use the xlimits and ylimits above
@@ -199,6 +196,9 @@ def setplot(plotdata):                  #defining setplot command (indenting by 
     plotitem.pcolor_cmin = cmin #defining the minimum color using color axis
     plotitem.pcolor_cmax = cmax #defining the maximum color using color axis
     
+    # Particles
+    plotaxes.afteraxes = add_particles
+
     def kml_colorbar(filename): #file name defined above
         geoplot.kml_build_colorbar(filename,cmap,cmin,cmax) #building the color bar
 
