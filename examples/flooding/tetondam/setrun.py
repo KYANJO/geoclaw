@@ -16,7 +16,8 @@ try:
 except:
     raise Exception("*** Must First set CLAW environment variable")
 
-scratch_dir = os.path.join(CLAW, 'geoclaw', 'scratch')
+# scratch_dir = os.path.join(CLAW, 'geoclaw', 'scratch')
+scratch_dir = 'topos'
 
 #------------------------------
 def setrun(claw_pkg='geoclaw'):
@@ -72,10 +73,10 @@ def setrun(claw_pkg='geoclaw'):
     if output_style == 1:
         # Total number of frames will be frames_per_minute*60*n_hours
 
-        n_hours = 20              # Total number of hours in simulation, changed 10.14.2020  should be 5      
+        n_hours = 15             # Total number of hours in simulation, changed 10.14.2020  should be 5      
         
 
-        frames_per_minute = 1/30   # Frames every 1/2 hour
+        frames_per_minute = 1/(15*60)   # Frames every 1/2 hour
 
     if output_style == 2:
         output_times = [1,2,3]    # Specify exact times to output files
@@ -90,13 +91,14 @@ def setrun(claw_pkg='geoclaw'):
     # Changes when the topo file changes 
     # ---------------------------------------------------------------------------------
     # Topo info (TetonDamLatLong.topo) decimal degrees, no minutes
-    m_topo = 4180
-    n_topo = 1464
-    xllcorner = -112.390734400000
-    yllcorner = 43.581746970335
-    cellsize = 0.000277729665
+    # m_topo = 4180
+    # n_topo = 1464
+    # xllcorner = -112.390734400000
+    # yllcorner = 43.581746970335
+    # cellsize = 0.000277729665
+    
 
-
+   
     #Topo info (TetonLarge.Topo) decimal degrees, no minutes
     # m_topo = 3996
     # n_topo = 2988
@@ -106,8 +108,8 @@ def setrun(claw_pkg='geoclaw'):
 
     # Computational coarse grid
 
-    mx = 54
-    my = 19
+    mx = 32*4
+    my = 32*2
 
     #Topo info (TetonLarge.Topo) decimal degrees, no minutes
     # m_topo = 3996
@@ -119,10 +121,10 @@ def setrun(claw_pkg='geoclaw'):
     # mx = 60
     # my = 45
 
-    maxlevel = 4 #resolution based on levels
-    ratios_x = [2,4,4,4]
-    ratios_y = [2,4,4,4]
-    ratios_t = [2,4,4,4] #should this be 0,0,0,0?
+    maxlevel = 5 #resolution based on levels
+    ratios_x = [4,2,2,2]
+    ratios_y = [4,2,2,2]
+    ratios_t = [4,2,2,2] #should this be 0,0,0,0?
 
     # ---------------
     # Spatial domain:
@@ -130,6 +132,10 @@ def setrun(claw_pkg='geoclaw'):
 
     # Number of space dimensions:
     clawdata.num_dim = num_dim
+
+    topofile = 'topos/TetonDamLatLong.topo'
+    import tools
+    m_topo,n_topo,xllcorner,yllcorner,cellsize = tools.read_topo_data(topofile)
 
     # Derived info from the topo map
     mx_topo = m_topo - 1
@@ -360,6 +366,7 @@ def setrun(claw_pkg='geoclaw'):
     # Flag using refinement routine flag2refine rather than richardson error
     amrdata.flag_richardson = False    # use Richardson?
     amrdata.flag2refine = True
+    amrdata.flag2refine_tol = 0.01
 
     # steps to take on each level (L) between regriddings of level L+1:
     amrdata.regrid_interval = 3
@@ -497,7 +504,7 @@ def setgeo(rundata):
     # == Physics ==
     geo_data.gravity = 9.81
     geo_data.coordinate_system = 2   # LatLong coordinates
-    geo_data.earth_radius = 6367.5e3
+    geo_data.earth_radius = 6371220.0
 
     # == Forcing Options
     geo_data.coriolis_forcing = True #edited 7.20 to see impact (for fun)
@@ -542,7 +549,7 @@ def setgeo(rundata):
     #   [minlev, maxlev, fname]
 
     # == setfixedgrids.data values ==
-    fixedgrids = rundata.fixed_grid_data
+    # fixedgrids = rundata.fixed_grid_data
     # for fixed grids append lines of the form
     # [t1,t2,noutput,x1,x2,y1,y2,xpoints,ypoints,\
     #  ioutarrivaltimes,ioutsurfacemax]
@@ -557,5 +564,3 @@ if __name__ == '__main__':
     import sys
     rundata = setrun(*sys.argv[1:])
     rundata.write()
-
-

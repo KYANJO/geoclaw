@@ -133,7 +133,7 @@ def setplot(plotdata):                  #defining setplot command (indenting by 
     plotitem.colorbar_label = 'ft/s'
     plotitem.amr_celledges_show = [0,0,0]
     plotitem.amr_patchedges_show = [0]
-    plotitem.amr_patchedges_color = ['m','g','w'] #green background colour
+    # plotitem.amr_patchedges_color = ['m','g','w'] #green background colour
 
     # Land
     plotitem = plotaxes.new_plotitem(plot_type='2d_pcolor')
