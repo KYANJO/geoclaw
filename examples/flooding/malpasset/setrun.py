@@ -38,7 +38,7 @@ if output_style == 1:
     n_hours = 1.0              # Total number of hours in simulation     
     
 
-    frames_per_minute = 60/50   # (1 frame every 25 mins)
+    frames_per_minute = 1/3600   # (1 frame every 25 mins)
 
 if output_style == 2:
     output_times = [1,2,3]    # Specify exact times to output files
@@ -48,13 +48,15 @@ if output_style == 3:
     total_steps = 1000   # ... for a total of 500 steps (so 50 output files total)
 
 #-------------------  Computational coarse grid ---------------------------------------
-mx = 16
-my = 16
+mx = 32
+my = 80
 
-minlevel = 2
-maxlevel = 3 #resolution based on levels 
+minlevel = 3
+maxlevel = 5 #resolution based on levels 
 
-
+ratio_x = [4,2,2,2,2]
+ratio_y = [4,2,2,2,2]
+ratio_t = [4,2,2,2,2]
 #-------------------manning coefficient -----------------------------------------------
 manning_coefficient = 0.03333
 
@@ -368,9 +370,9 @@ def setrun(claw_pkg='geoclaw'):
 
     amrdata.amr_levels_max = maxlevel    # Set to 3 for best results
     # List of refinement ratios at each level (length at least mxnest-1)
-    amrdata.refinement_ratios_x = [4]*5
-    amrdata.refinement_ratios_y = [4]*5
-    amrdata.refinement_ratios_t = [4]*5
+    amrdata.refinement_ratios_x = ratio_x
+    amrdata.refinement_ratios_y = ratio_y
+    amrdata.refinement_ratios_t = ratio_t
     # rundata.tol = -1
     # rundata.tolsp = 0.001
 

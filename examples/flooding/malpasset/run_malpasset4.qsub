@@ -1,0 +1,25 @@
+#!/bin/bash -l
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1
+#SBATCH -c 4    # number of CPU cores i.e. OpenMP threads per task
+#SBATCH --time=20:00:00
+#SBATCH --gres=gpu:1 # max 0f 1 on Borah
+#SBATCH -p gpu # queue (partition) 
+#SBATCH --job-name=gclaw
+#SBATCH --output=gclaw_00004.o%j
+
+module load slurm
+
+if [ -n "$SLURM_CPUS_PER_TASK" ]; then
+  omp_threads=$SLURM_CPUS_PER_TASK
+else
+  omp_threads=1
+fi
+export OMP_NUM_THREADS=$omp_threads
+
+export PATH="/bsuhome/bkyanjo/anaconda3/bin:$PATH"
+
+# Set PYTHONPATH to include Clawpack installation
+export PYTHONPATH=/bsuhome/bkyanjo/clawpack_src/clawpack-v5-9-0:$PYTHONPATH
+
+make output
