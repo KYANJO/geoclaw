@@ -121,10 +121,10 @@ def setrun(claw_pkg='geoclaw'):
     # mx = 60
     # my = 45
 
-    maxlevel = 5 #resolution based on levels
-    ratios_x = [4,2,2,2]
-    ratios_y = [4,2,2,2]
-    ratios_t = [4,2,2,2] #should this be 0,0,0,0?
+    maxlevel = 6 #resolution based on levels
+    ratios_x = [4,2,2,2,2]
+    ratios_y = [4,2,2,2,2]
+    ratios_t = [4,2,2,2,2] #should this be 0,0,0,0?
 
     # ---------------
     # Spatial domain:

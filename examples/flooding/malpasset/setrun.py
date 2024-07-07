@@ -38,7 +38,7 @@ if output_style == 1:
     n_hours = 1.0              # Total number of hours in simulation     
     
 
-    frames_per_minute = 1/3600   # (1 frame every 25 mins)
+    frames_per_minute = 1/60   # (1 frame every 25 mins)
 
 if output_style == 2:
     output_times = [1,2,3]    # Specify exact times to output files
@@ -52,11 +52,11 @@ mx = 32
 my = 80
 
 minlevel = 3
-maxlevel = 5 #resolution based on levels 
+maxlevel = 6 #resolution based on levels 
 
-ratio_x = [4,2,2,2,2]
-ratio_y = [4,2,2,2,2]
-ratio_t = [4,2,2,2,2]
+ratio_x = [4,2,2,2,2,2]
+ratio_y = [4,2,2,2,2,2]
+ratio_t = [4,2,2,2,2,2]
 #-------------------manning coefficient -----------------------------------------------
 manning_coefficient = 0.03333
 
